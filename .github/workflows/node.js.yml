@@ -1,0 +1,27 @@
+name: Node.js CI
+
+on:  # Déclenche le workflow sur :
+  push:
+    branches: [ "main" ]  # Exécuté quand on push sur `main`
+  pull_request:
+    branches: [ "main" ]  # Exécuté quand une PR est ouverte vers `main`
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Environnement d'exécution
+
+    steps:
+      - name: Checkout code  # Récupère le code du dépôt
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js  # Installe Node.js (version 20 par défaut)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'  # Cache les dépendances pour accélérer les futurs runs
+
+      - name: Install dependencies  # Installe les dépendances
+        run: npm install
+
+      - name: Run tests  # Exécute les tests (si vous avez un script "test" dans package.json)
+        run: npm test
